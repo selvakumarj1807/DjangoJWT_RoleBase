@@ -1,0 +1,107 @@
+===========================
+🔐 JWT AUTH API GUIDE
+===========================
+
+BASE URL: http://localhost:8000/auth/
+
+---------------------------
+📌 1. REGISTER USER
+---------------------------
+POST   /register/
+
+Description:
+Registers a new user with a specific role: customer, admin, or staff.
+
+Payload:
+{
+  "username": "selva_admin",
+  "email": "selva@admin.com",
+  "password": "admin123",
+  "role": "admin"
+}
+
+---------------------------
+📌 2. LOGIN / GET TOKEN
+---------------------------
+POST   /token/
+
+Description:
+Authenticates a user and returns access & refresh tokens.
+
+Payload:
+{
+  "username": "selva_admin",
+  "password": "admin123"
+}
+
+Response:
+{
+  "access": "access.jwt.token",
+  "refresh": "refresh.jwt.token"
+}
+
+---------------------------
+♻️ 3. REFRESH ACCESS TOKEN
+---------------------------
+POST   /token/refresh/
+
+Description:
+Generates a new access token using a valid refresh token.
+
+Payload:
+{
+  "refresh": "refresh.jwt.token"
+}
+
+---------------------------
+🚪 4. LOGOUT / BLACKLIST TOKEN
+---------------------------
+POST   /token/blacklist/
+
+Description:
+Blacklists a refresh token to invalidate the session (logout).
+
+Payload:
+{
+  "refresh": "refresh.jwt.token"
+}
+
+---------------------------
+🔐 5. VIEW ACCOUNTS (Protected)
+---------------------------
+GET   /view-accounts/
+
+Description:
+Returns a list of users (restricted to staff/admin roles).
+
+Headers:
+Authorization: Bearer <access_token>
+
+---------------------------
+🛡️ ROLE-BASED ACCESS NOTES
+---------------------------
+- `customer` can only view their own dashboard (via UI).
+- `admin` can access all accounts and admin views.
+- `staff` may access limited admin functions (if configured).
+
+---------------------------
+🧩 TOKEN SHARING STRATEGY
+---------------------------
+- Store tokens in:
+  - LocalStorage (React & Next.js)
+  - Django Session (Templates)
+- Pass `Authorization: Bearer <access_token>` in API requests.
+- Refresh token stored securely for renewals.
+
+---------------------------
+✅ HTTP RESPONSE CODES
+---------------------------
+200 OK         – Successful request  
+201 CREATED    – Resource created  
+401 UNAUTHORIZED – Token invalid or missing  
+403 FORBIDDEN  – Role does not have access  
+400 BAD REQUEST – Invalid input or data  
+
+---------------------------
+🔚 END OF GUIDE
+---------------------------

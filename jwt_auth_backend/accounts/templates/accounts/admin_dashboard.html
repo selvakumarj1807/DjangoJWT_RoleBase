@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="mb-4 text-center">Custom Admin Dashboard</h2>
+        <div class="text-end mb-4">
+            <a href="{% url 'UserRegister' %}" class="btn btn-success">Register</a>
+        </div>
+        <div class="text-end mb-4">
+            <a href="{% url 'UserLogout' %}" class="btn btn-danger">Logout</a>
+        </div>
+
+        <div class="row text-center mb-4">
+            <div class="col-md-3">
+                <div class="card shadow p-3">
+                    <h5>Total Users</h5>
+                    <span class="fs-3">{{ total_users }}</span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow p-3">
+                    <h5>Admins</h5>
+                    <span class="fs-3 text-danger">{{ total_admins }}</span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow p-3">
+                    <h5>Staff</h5>
+                    <span class="fs-3 text-info">{{ total_staff }}</span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow p-3">
+                    <h5>Customers</h5>
+                    <span class="fs-3 text-success">{{ total_customers }}</span>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3">Recent Users</h4>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role|title }}</td>
+                    <td>{{ user.date_joined }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
